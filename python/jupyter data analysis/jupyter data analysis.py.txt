@@ -1,0 +1,62 @@
+# Import library to call APIs (HTTP requests)
+import requests  
+
+# Import pandas for data manipulation & analysis
+import pandas as pd  
+
+# Import Plotly Express for easy chart creation
+import plotly.express as px  
+
+# Import Plotly IO to control rendering behavior
+import plotly.io as pio  
+
+
+# 🔥 Set Plotly renderer to display charts inside Jupyter Notebook
+pio.renderers.default = "notebook"  
+
+
+# 🔹 API endpoint (Spring Boot API URL)
+url = "http://localhost:8080/api/car-sales/yearly-count"  
+
+# Call the API and convert response JSON into Python dictionary
+response = requests.get(url).json()  
+
+
+# Extract 'data' field from API response
+data = response['data']  
+
+# Convert data into pandas DataFrame and sort by year
+df = pd.DataFrame(data).sort_values(by="year")  
+
+
+# Create a line chart using Plotly
+fig = px.line(
+    df,                 # Data source
+    x="year",           # X-axis (year)
+    y="count",          # Y-axis (sales count)
+    markers=True,       # Show markers on each point
+    text="count",       # Display count value on each point
+    title="📊 Year-wise Sales Analysis (2015–2026)"  # Chart title
+)
+
+
+# Customize line and marker appearance
+fig.update_traces(
+    textposition="top center",   # Position text above points
+    line=dict(width=4),          # Make line thicker
+    marker=dict(size=10)         # Increase marker size
+)
+
+
+# Customize overall layout of the chart
+fig.update_layout(
+    template="plotly_dark",      # Use dark theme
+    title_x=0.5,                 # Center align title
+    xaxis_title="Year",          # Label for X-axis
+    yaxis_title="Sales Count",   # Label for Y-axis
+    hovermode="x unified"        # Show unified tooltip on hover
+)
+
+
+# Display the chart
+fig.show()
