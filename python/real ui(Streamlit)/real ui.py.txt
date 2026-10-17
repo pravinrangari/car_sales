@@ -224,4 +224,4 @@ elif option == "Price Analysis":
 st.markdown("---")
 
 # Footer text
-st.caption("Built with Streamlit + Spring Boot | By Saif(CODEHUNT)")
+st.caption("Built with Streamlit + Spring Boot | By Pravin Rangari")
